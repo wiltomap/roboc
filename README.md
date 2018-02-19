@@ -1,4 +1,4 @@
-<strong><Projet 'roboc'</strong>
+<strong>Projet 'roboc'</strong>
 
 Exercice dans le cadre du cours Openclassrooms "Apprenez à programmer en Python" (fin du chapitre 3)
 > https://openclassrooms.com/courses/apprenez-a-programmer-en-python
