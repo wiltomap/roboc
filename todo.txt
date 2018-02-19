@@ -1,0 +1,6 @@
+- Vérifier dans les consignes s'il faut ré-afficher la grille en cas de succès (avec position du robot à la place du "U")
+
+- Gérer les parties en cours avec des cartes différentes
+  >> 'encours' doit stocker un unique objet dict qui contient les parties sous la forme { "facile": [(1,2),(2,3),...] }
+  >> si aucune partie n'est en cours, le dictionnaire encours est vide
+  >> corriger les parties où 'encours' est supprimé...
