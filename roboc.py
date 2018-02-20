@@ -9,13 +9,17 @@ from robot import *
 
 
 # Chargement des parties en cours
-with open("encours", "rb") as fichier:
-    encours = pickle.load(fichier)
-    encours = list(encours.keys())
+# Si le fichier encours n'existe pas : création avec un dictionnaire vide
+try:
+    with open("encours", "rb") as fichier:
+        encours = pickle.load(fichier)
+except FileNotFoundError:
+    with open("encours", "wb") as fichier:
+        a = pickle.Pickler(fichier)
+        a.dump(dict())
+else:
+    encours = dict()
 
-
-# Chargement des cartes existantes dans la liste cartes
-# (chaque carte est un objet construit sur la classe Carte)
 
 # Liste des cartes existantes
 cartes = list()
@@ -46,12 +50,8 @@ def choix(liste_cartes):
     return carte_choisie
 
 
-# Stockage des parties en cours dans 'encours' (dictionnaire)
-with open("encours", "rb") as fichier:
-    encours = pickle.load(fichier)
-
-
-# Constitution des listes de cartes existantes et en cours
+# Chargement des cartes existantes dans la liste 'cartes' ou des parties en cours dans la liste 'parties'
+# (chaque carte ou partie est un objet construit sur la classe Carte)
 for fichier in os.listdir("cartes"):
     if fichier.endswith(".txt"):
         chemin = os.path.join("cartes", fichier)
@@ -63,7 +63,7 @@ for fichier in os.listdir("cartes"):
             cartes.append(carte)
             for key, value in encours.items():
                 if carte.nom == key:
-                    carte.robot = value[-1]
+                    carte.robot = value
                     parties.append(cartes)
 
 
@@ -128,6 +128,7 @@ while 1:
     else:
         # Calcul de la nouvelle position du robot
         coord = robot.set_position(action)
+        x, y = coord
 
         # print("Largeur : {0}".format(carte_choisie.largeur))
         # print("Hauteur : {0}".format(carte_choisie.hauteur))
@@ -135,11 +136,11 @@ while 1:
 
         if coord == carte_choisie.succes:
             print("{0}Partie gagnee !".format("\n"))
-            os.remove("encours")
+            robot.save_position(coord, carte_choisie.succes, carte_choisie.nom)
             break
 
         # Si la nouvelle position du robot tombe dans la grille
-        if (0 < coord[0] < carte_choisie.largeur-1 and 0 < coord[1] < carte_choisie.hauteur-1):
+        if (0 < x < carte_choisie.largeur-1 and 0 < y < carte_choisie.hauteur-1):
 
             # Si la nouvelle position du robot ne tombe pas sur un obstacle
             if coord not in carte_choisie.obstacles:
@@ -154,7 +155,7 @@ while 1:
                 robot.coord = coord
 
                 # Sauvegarde de la position du robot
-                robot.save_position(coord)
+                robot.save_position(coord, carte_choisie.succes, carte_choisie.nom)
 
                 continue
 

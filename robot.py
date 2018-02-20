@@ -49,13 +49,13 @@ class Robot:
         return x, y
 
 
-    def save_position(self, coord):
+    def save_position(self, coord, coord_succes, nom_carte):
 
         """Enregistre une position dans le fichier 'encours'.
 
-        Si une partie est en cours, le fichier existe et comporte un
-        objet liste nommé 'positions' qui stocke des tuples (x, y) correspondant
-        aux positions successives du robot. Si non, il n'existe pas.
+        Si une partie est en cours, le fichier comporte un objet
+        dictionnaire qui stocke en clé le nom de la carte et en valeur
+        la dernière position du robot : { "carte": (x, y), ... }.
 
         NB : la lecture et l'écriture se font en mode binaire à
         l'aide du module pickle.
@@ -63,23 +63,15 @@ class Robot:
         """
 
         x, y = coord
-        positions = list()
+        positions = dict()
 
-        try:
-            with open("encours", "rb") as fichier:
-                positions = pickle.load(fichier)
-        except EOFError:
-            os.remove("encours")
-            # print("Fichier vide...")
-        except FileNotFoundError:
-            pass
-            # print("Le fichier n'existe pas...")
+        with open("encours", "rb") as fichier:
+            positions = pickle.load(fichier)
+
+        if coord == coord_succes:
+            del positions[nom_carte]
         else:
-            pass
-            # print("Le fichier existe et contient {0}".format(positions))
-
-        positions.append(coord)
-        # print("La liste 'positions' contient desormais {0}".format(positions))
+            positions[nom_carte] = coord
 
         with open("encours", "wb") as fichier:
             a = pickle.Pickler(fichier)
