@@ -17,8 +17,6 @@ except FileNotFoundError:
     with open("encours", "wb") as fichier:
         a = pickle.Pickler(fichier)
         a.dump(dict())
-else:
-    encours = dict()
 
 
 # Liste des cartes existantes
@@ -50,7 +48,7 @@ def choix(liste_cartes):
     return carte_choisie
 
 
-# Chargement des cartes existantes dans la liste 'cartes' ou des parties en cours dans la liste 'parties'
+# Chargement des cartes existantes dans la liste 'cartes' et des parties en cours dans la liste 'parties'
 # (chaque carte ou partie est un objet construit sur la classe Carte)
 for fichier in os.listdir("cartes"):
     if fichier.endswith(".txt"):
@@ -66,6 +64,7 @@ for fichier in os.listdir("cartes"):
                     carte.robot = value
                     parties.append(cartes)
 
+print("{1}Parties en cours : {0}{1}".format(parties, "\n"))
 
 # S'il existe une partie en cours
 if len(parties) > 0:
@@ -116,27 +115,30 @@ print("\n{0}\n".format(carte_choisie.chaine))
 while 1:
 
     action = input("Action : ").lower()
-    # action = "s"
     pattern = "^q|([neso][1-9]*)$"
 
     if not re.fullmatch(pattern, action):
         print("Saisie erronée...")
         continue
+
     elif action == "q":
-        # Fin du jeu (à faire)
+        robot.save_position(robot.coord, carte_choisie.succes, carte_choisie.nom)
         break
+
     else:
         # Calcul de la nouvelle position du robot
         coord = robot.set_position(action)
         x, y = coord
 
-        # print("Largeur : {0}".format(carte_choisie.largeur))
-        # print("Hauteur : {0}".format(carte_choisie.hauteur))
-        # print("Coord. robot : {0}".format(coord))
-
+        # Si le robot tombe sur la sortie
         if coord == carte_choisie.succes:
-            print("{0}Partie gagnee !".format("\n"))
+            # Récupération de la grille mise à jour
+            grille = carte_choisie.grille(coord)
+            # Suppression de la partie en cours dans le fichier 'encours'
             robot.save_position(coord, carte_choisie.succes, carte_choisie.nom)
+            # Affichage de la grille
+            print("{1}{0}{1}{2}".format(grille, "\n", "Partie gagnee !"))
+            # Fin de la partie
             break
 
         # Si la nouvelle position du robot tombe dans la grille

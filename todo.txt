@@ -1,6 +1,10 @@
-- Vérifier dans les consignes s'il faut ré-afficher la grille en cas de succès (avec position du robot à la place du "U")
+- Afficher la grille une dernière fois en cas de succès (avec position du robot à la place du "U") OK
 
 - Gérer les parties en cours avec des cartes différentes
   >> 'encours' doit stocker un unique objet dict qui contient les parties sous la forme { "facile": (1,2), "base": (2,5), ... ] } OK
   >> si aucune partie n'est en cours, le dictionnaire est vide OK
   >> corriger les parties où 'encours' est supprimé... OK
+
+- Fin du jeu à écrire (cas où l'utilisateur saisie "q") : sauvegarde de la partie en cours
+
+- Gérer la saisie "q" dès le début (choix d'une carte)
