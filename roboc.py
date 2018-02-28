@@ -17,7 +17,9 @@ except FileNotFoundError:
     with open("encours", "wb") as fichier:
         a = pickle.Pickler(fichier)
         a.dump(dict())
+    encours = dict()
 
+print("Contenu de 'encours' : {0}".format(encours))
 
 # Liste des cartes existantes
 cartes = list()
@@ -62,9 +64,10 @@ for fichier in os.listdir("cartes"):
             for key, value in encours.items():
                 if carte.nom == key:
                     carte.robot = value
-                    parties.append(cartes)
+                    parties.append(carte)
 
-print("{1}Parties en cours : {0}{1}".format(parties, "\n"))
+print("Cartes existantes : {0}".format(cartes, "\n"))
+print("Parties en cours : {0}".format(parties, "\n"))
 
 # S'il existe une partie en cours
 if len(parties) > 0:
@@ -72,7 +75,7 @@ if len(parties) > 0:
     # Stockage du choix de l'utilisateur dans 'reprendre'
     while 1:
         try:
-            reprendre = int(input("Il existe une (des) partie(s) en cours, que souhaitez-vous faire ?\n  1 - Reprendre une partie\n  2 - Démarrer une nouvelle partie"))
+            reprendre = int(input("Il existe une (des) partie(s) en cours, que souhaitez-vous faire ?\n\n  1 - Reprendre une partie\n  2 - Démarrer une nouvelle partie\n\nChoix : "))
             assert reprendre in range(1, 3)
         except ValueError:
             print("Saisie incorrecte ! Merci de saisir un nombre uniquement...")
@@ -157,7 +160,7 @@ while 1:
                 robot.coord = coord
 
                 # Sauvegarde de la position du robot
-                robot.save_position(coord, carte_choisie.succes, carte_choisie.nom)
+                # robot.save_position(coord, carte_choisie.succes, carte_choisie.nom)
 
                 continue
 

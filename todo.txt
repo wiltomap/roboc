@@ -8,3 +8,5 @@
 - Fin du jeu à écrire (cas où l'utilisateur saisie "q") : sauvegarde de la partie en cours
 
 - Gérer la saisie "q" dès le début (choix d'une carte)
+
+- Reste un souci dans fonction choix() qui ne recharge pas la carte choisie avec la position du robot mémorisée
