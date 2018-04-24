@@ -5,7 +5,7 @@ def ref(chaine):
 
     """
 
-    Renvoie deux informations sur la carte passée en paramètre :
+    Renvoie trois informations sur la carte passée en paramètre :
 
     - La position du robot (x, y)
     - La position de la porte de sortie (x, y)
@@ -40,7 +40,7 @@ class Carte:
     Il comporte les attributs suivants :
 
         - self.nom :            nom de la carte
-        - self.chaine :         chaine brute telle que lue dans le fichier *.texte
+        - self.chaine :         chaine brute telle que lue dans le fichier *.txt
         - self.plan :           chaine brute sans le robot (plan)
         - self.position_robot : position initiale du robot sous la forme d'un tuple (x,y)
         - self.largeur :        nombre de colonnes
